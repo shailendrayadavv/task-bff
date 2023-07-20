@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { CompetitionsServices } from "../services";
 
 export class CompetitionsController {
-  private userListService;
+  private competitionsService;
   constructor() {
-    this.userListService = new CompetitionsServices();
+    this.competitionsService = new CompetitionsServices();
   }
   public get = async (req: Request, res: Response) => {
     try {
@@ -12,7 +12,7 @@ export class CompetitionsController {
       const page: number = Number(req.query.page);
       const continentId: number = Number(req.query.continentId);
       res.json(
-        await this.userListService.fetch(sportId, page, continentId)
+        await this.competitionsService.fetch(sportId, page, continentId)
       );
     } catch (e) {
       res.status(400).json({ message: "error" });

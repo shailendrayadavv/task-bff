@@ -1,5 +1,9 @@
 import App from "./app";
-import { SportsRoute, CompetitionsRoute } from "./routes";
+import { SportsRoute, CompetitionsRoute, ContinentsRoute } from "./routes";
 
-const app = new App([new SportsRoute(), new CompetitionsRoute()]);
+const app = new App([
+  new SportsRoute(),
+  new CompetitionsRoute(),
+  new ContinentsRoute(),
+]);
 app.listen();
