@@ -1,10 +1,12 @@
 import { ICompetitionRequest } from "../interfaces/competition.interdace";
+import { API_PATHS } from "../utils/constants";
 import { addDefaultPageParam, addQueryParams } from "../utils/helpers";
+import { getApiCall } from "./api";
 
 export class CompetitionsServices {
   private baseUrl: string;
   constructor() {
-    this.baseUrl = "https://api.allsportdb.com/v3/competitions";
+    this.baseUrl = API_PATHS.COMPETITIONS;
   }
   public fetch = async (reqObj: ICompetitionRequest) => {
     if (reqObj.fetchAll) {
@@ -12,12 +14,7 @@ export class CompetitionsServices {
     }
     const newReqObj = addDefaultPageParam(reqObj);
     const newUrl = addQueryParams(this.baseUrl, newReqObj);
-    const results = await fetch(newUrl, {
-      headers: {
-        Authorization: "Bearer a69966d8-a69d-4853-91c3-8a4258f99186",
-      },
-    });
-    return await results.json();
+    return await getApiCall(newUrl);
   };
   public fetchAll = async (sportId: number) => {
     let page = 1;
