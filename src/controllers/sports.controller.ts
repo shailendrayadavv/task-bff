@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { SportsServices } from "../services";
+import { sportsSchema } from "../validations/sports.validations";
+import { ISportsRequest } from "../interfaces/sports.interface";
 
 export class SportsController {
   private sportsService;
@@ -8,12 +10,14 @@ export class SportsController {
   }
   public get = async (req: Request, res: Response) => {
     try {
-      const season: string = req.query.season as string;
-      const page: number = Number(req.query.page);
-      console.log("hi",season,page,req.query)
-      res.json(await this.sportsService.fetch(season, page));
+      const reqBody = req.query as unknown;
+      const { error } = sportsSchema.validate(reqBody);
+      if (error) {
+        throw new Error();
+      }
+      res.json(await this.sportsService.fetch(reqBody as ISportsRequest));
     } catch (e) {
-      res.status(400).json({ message: "failed" });
+      res.status(400).json({ message: "bad request" });
     }
   };
 }
